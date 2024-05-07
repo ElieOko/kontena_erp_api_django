@@ -76,7 +76,7 @@ class Country(NoOccurentData):
 class GeographicPosition(NoOccurentData):
     name = None
     city = models.CharField(max_length=25, blank=True, null=False)
-    fk_pays = models.OneToOneField(Country, on_delete=models.CASCADE)
+    fk_country = models.OneToOneField(Country, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.city}({self.name})'
@@ -109,6 +109,7 @@ class Candidat(NoOccurentData):
 
 class CurriculumVitae(NoOccurentData):
     fk_candidat = models.OneToOneField(Candidat, on_delete=models.CASCADE)
+    file = models.FileField(upload_to="uploads/")
 
 
 class FileFolder(NoOccurentData):
@@ -190,5 +191,33 @@ class SalaryEmployee(NoOccurentData):
     fk_employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
     amount_salary = models.DecimalField(decimal_places=2, default=0.0, max_digits=10)
     is_payment = models.BooleanField(default=False)
+
+
+class Subvention(NoOccurentData):
+    # https://www.leganet.cd/Legislation/DroitSocial/Loi%2016.010.15.07.html
+    amount_subvention = models.DecimalField(decimal_places=2, default=0.0, max_digits=10)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.amount_subvention}({self.name})'
+
+
+class SubventionEmployee(NoOccurentData):
+    name = None
+    fk_employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    fk_subvention = models.OneToOneField(Subvention, on_delete=models.CASCADE)
+
+
+class Presence(NoOccurentData):
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+class PointagePresenceEmployee(NoOccurentData):
+    fk_employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    fk_presence = models.OneToOneField(Presence, on_delete=models.CASCADE)
+    is_presence = models.BooleanField(default=False)
+
 
 
