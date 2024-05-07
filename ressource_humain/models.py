@@ -139,6 +139,8 @@ class Employee(NoOccurentData):
     marital_status = models.CharField(max_length=12, blank=True, null=False)
     level_of_study = models.CharField(max_length=255, blank=True, null=False)
     fk_poste = models.OneToOneField(Poste, on_delete=models.CASCADE)
+    fk_department = models.OneToOneField(Department, on_delete=models.CASCADE)
+    job_description = models.CharField(max_length=255, blank=True, null=False)
 
 
 class SeniorityEmployee(NoOccurentData):
@@ -220,4 +222,43 @@ class PointagePresenceEmployee(NoOccurentData):
     is_presence = models.BooleanField(default=False)
 
 
+class Saison(NoOccurentData):
+    date_start = models.DateTimeField()
+    date_end = models.DateTimeField()
 
+
+class Periode(NoOccurentData):
+    fk_saison = models.OneToOneField(Saison, on_delete=models.CASCADE)
+    code = models.CharField(max_length=5, blank=True, null=False)
+
+
+class TypeEvaluation(NoOccurentData):
+    # https://asana.com/fr/resources/employee-performance-review-template
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+
+class Evaluation(NoOccurentData):
+    fk_type_evaluation = models.OneToOneField(TypeEvaluation, on_delete=models.CASCADE)
+
+
+class EvaluationObjectif(NoOccurentData):
+    fk_type_evaluation = models.OneToOneField(TypeEvaluation, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255, blank=True, null=False)
+
+
+class CritereEvaluation(NoOccurentData):
+    ponderation = models.IntegerField(default=1)
+
+
+class NoteCritere(NoOccurentData):
+    score = models.IntegerField(default=1)
+    fk_critere = models.OneToOneField(CritereEvaluation, on_delete=models.CASCADE)
+
+
+class EvaluationEmployee(NoOccurentData):
+    fk_evaluation = models.OneToOneField(Evaluation, on_delete=models.CASCADE)
+    fk_employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    fk_periode = models.OneToOneField(Periode, on_delete=models.CASCADE)
+    fk_note_critere = models.OneToOneField(NoteCritere, on_delete=models.CASCADE)
+    fk_evaluation_objectif = models.OneToOneField(EvaluationObjectif, on_delete=models.CASCADE)
+    observation = models.CharField(max_length=255, blank=True, null=True)

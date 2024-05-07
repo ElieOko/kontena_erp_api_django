@@ -3,7 +3,8 @@ from .models import (Grade, TypePoste, Candidat, Profession, Presence, TypeProfe
                      TypeEnterprise, Enterprise, Employee, Country, TypeIndustrie, SubventionEmployee, Subvention,
                      Folder, FileFolder, SubFolder, Devise, Status, SalaryEmployee, TypePayment,
                      PointagePresenceEmployee, Payment, SeniorityEmployee, Poste, Department, GeographicPosition,
-                     CurriculumVitae)
+                     CurriculumVitae, EvaluationEmployee, NoteCritere, CritereEvaluation, EvaluationObjectif,
+                     Evaluation, Periode, Saison)
 # Register your models here.
 
 admin.site.register(Candidat)
@@ -35,3 +36,10 @@ admin.site.register(Poste)
 admin.site.register(Department)
 admin.site.register(GeographicPosition)
 admin.site.register(CurriculumVitae)
+admin.site.register(EvaluationEmployee)
+admin.site.register(NoteCritere)
+admin.site.register(CritereEvaluation)
+admin.site.register(EvaluationObjectif)
+admin.site.register(Evaluation)
+admin.site.register(Periode)
+admin.site.register(Saison)
